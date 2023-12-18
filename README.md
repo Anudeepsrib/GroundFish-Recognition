@@ -1,6 +1,6 @@
 # GroundFish-Recognition
 
-## Machine Learning Experiments with YOLO Object Detection
+## Cross Database and Transfer Learning Experiments with YOLOv8 Object Detection
 
 ### Overview
 This repository contains a series of experiments conducted using the YOLO (You Only Look Once) object detection algorithm. The experiments focus on the generalization capabilities of machine learning models across various datasets, specifically in the context of groundfish species recognition.
