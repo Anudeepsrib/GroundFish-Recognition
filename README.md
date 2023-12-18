@@ -8,6 +8,9 @@ This repository contains a series of experiments conducted using the YOLO (You O
 ### Experiments
 The experiments are structured to assess the model's performance in different environments, utilizing a combination of traditional machine learning and transfer learning techniques. Key areas of focus include cross-database generalization, model adaptability, and the efficacy of transfer learning.
 
+![image](https://github.com/Anudeepsrib/GroundFish-Recognition/assets/36981925/97aa6677-4f65-44ba-a586-79cb576955e1)
+
+
 #### Experiment 1
 - **Objective**: Evaluate the model's ability to generalize from conveyor belts to underwater environments.
 - **Datasets**: Conveyor Belt Dataset (training), Underwater Dataset (testing).
