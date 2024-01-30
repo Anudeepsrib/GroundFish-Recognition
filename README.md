@@ -37,3 +37,22 @@ Several Python libraries are required to replicate these experiments, including 
 ```bash
 pip install ultralytics==8.0.20
 pip install roboflow
+
+
+# Your Project Name
+
+[Description of your project]
+
+## Citation
+
+If you find this project useful for your research or work, please consider citing it. You can use the following BibTeX entry:
+
+```bibtex
+@misc{Bathina-GroundFishRecognition,
+  title=GroundFish Recognition,
+  author=Bathina, Anudeepsri,
+  year=2023,
+  publisher=GitHub,
+  journal={GitHub Repository},
+  howpublished={\url[https://github.com/Anudeepsrib/GroundFish-Recognition/]},
+}
