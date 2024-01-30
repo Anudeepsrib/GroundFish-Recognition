@@ -42,7 +42,7 @@ pip install roboflow
 
 If you find this project useful for your research or work, please consider citing it. You can use the following BibTeX entry:
 
-```bibtex
+```BibTeX
 @misc{Bathina-GroundFishRecognition,
   title=GroundFish Recognition,
   author=Bathina, Anudeepsri,
@@ -51,3 +51,4 @@ If you find this project useful for your research or work, please consider citin
   journal={GitHub Repository},
   howpublished={\url[https://github.com/Anudeepsrib/GroundFish-Recognition/]},
 }
+```
