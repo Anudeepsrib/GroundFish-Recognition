@@ -33,15 +33,9 @@ The experiments are structured to assess the model's performance in different en
 
 ### Installation
 Several Python libraries are required to replicate these experiments, including Ultralytics for YOLO models and Roboflow for dataset management. Install these using pip:
-
 ```bash
 pip install ultralytics==8.0.20
 pip install roboflow
-
-
-# Your Project Name
-
-[Description of your project]
 
 ## Citation
 
