@@ -36,6 +36,7 @@ Several Python libraries are required to replicate these experiments, including 
 ```bash
 pip install ultralytics==8.0.20
 pip install roboflow
+```
 
 ## Citation
 
