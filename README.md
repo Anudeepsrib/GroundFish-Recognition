@@ -3,52 +3,94 @@
 ## Cross Database and Transfer Learning Experiments with YOLOv8 Object Detection
 
 ### Overview
-This repository contains a series of experiments conducted using the YOLO (You Only Look Once) object detection algorithm. The experiments focus on the generalization capabilities of machine learning models across various datasets, specifically in the context of groundfish species recognition.
+This repository hosts a comprehensive study on the generalization capabilities of YOLOv8 object detection models in the context of groundfish species recognition. The project utilizes machine learning and transfer learning techniques to assess model performance across disparate environments, specifically shifting between **Conveyor Belt** (controlled) and **Underwater** (wild) datasets.
 
-### Experiments
-The experiments are structured to assess the model's performance in different environments, utilizing a combination of traditional machine learning and transfer learning techniques. Key areas of focus include cross-database generalization, model adaptability, and the efficacy of transfer learning.
+The goal is to understand how well models trained in one domain adapt to another, and how transfer learning can bridge the gap.
 
-![image](https://github.com/Anudeepsrib/GroundFish-Recognition/assets/36981925/97aa6677-4f65-44ba-a586-79cb576955e1)
+### Key Features
+*   **Cross-Domain Analysis**: Testing generalization from controlled settings to natural underwater environments.
+*   **Transfer Learning**: Utilizing pre-trained weights to improve performance in target domains with limited data.
+*   **YOLOv8 Implementation**: Leveraging the state-of-the-art YOLOv8 architecture for efficient and accurate detection.
+*   **Roboflow Integration**: Seamless dataset management and preprocessing via Roboflow.
 
+### Experiments Breakdown
+The project consists of five core experiments, each contained in its own directory:
 
-#### Experiment 1
-- **Objective**: Evaluate the model's ability to generalize from conveyor belts to underwater environments.
-- **Datasets**: Conveyor Belt Dataset (training), Underwater Dataset (testing).
+#### 1. [Experiment 1](./Experiment1)
+*   **Generalization (Conveyor $\to$ Underwater)**
+*   Train on Conveyor Belt dataset, Test on Underwater dataset.
+*   *Objective*: Establish a baseline for zero-shot generalization performance.
 
-#### Experiment 2
-- **Objective**: Assess the model's performance when trained on underwater images and tested on a conveyor belt dataset.
-- **Datasets**: Underwater Dataset (training), Conveyor Belt Dataset (testing).
+#### 2. [Experiment 2](./Experiment2)
+*   **Generalization (Underwater $\to$ Conveyor)**
+*   Train on Underwater dataset, Test on Conveyor Belt dataset.
+*   *Objective*: Assess if models trained in complex environments generalize better to simple ones.
 
-#### Experiment 3
-- **Objective**: Test model performance on a mixed dataset containing underwater and conveyor belt images.
-- **Datasets**: Mixed Dataset (training and testing).
+#### 3. [Experiment 3](./Experiment3)
+*   **Mixed Dataset Training**
+*   Train and Test on a combined dataset (Conveyor + Underwater).
+*   *Objective*: Evaluate if data diversity improves overall robustness.
 
-#### Experiment 4
-- **Objective**: Utilize transfer learning from conveyor belt to underwater dataset.
-- **Datasets**: Conveyor Belt Dataset (initial training), Underwater Dataset (fine-tuning).
+#### 4. [Experiment 4](./Experiment4)
+*   **Transfer Learning (Conveyor $\to$ Underwater)**
+*   Pre-train on Conveyor Belt, Fine-tune on Underwater.
+*   *Objective*: Quantify the benefits of transfer learning from a source domain.
 
-#### Experiment 5
-- **Objective**: Apply transfer learning from underwater to a conveyor belt environment.
-- **Datasets**: Underwater Dataset (initial training), Conveyor Belt Dataset (fine-tuning).
+#### 5. [Experiment 5](./Experiment5)
+*   **Transfer Learning (Underwater $\to$ Conveyor)**
+*   Pre-train on Underwater, Fine-tune on Conveyor Belt.
+*   *Objective*: Investigate reverse transfer learning efficacy.
 
-### Installation
-Several Python libraries are required to replicate these experiments, including Ultralytics for YOLO models and Roboflow for dataset management. Install these using pip:
-```bash
-pip install ultralytics==8.0.20
-pip install roboflow
-```
+### Installation & Prerequisites
 
-## Citation
+To replicate these experiments, you need a Python environment with GPU support (recommended).
 
-If you find this project useful for your research or work, please consider citing it. You can use the following BibTeX entry:
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/Anudeepsrib/GroundFish-Recognition.git
+    cd GroundFish-Recognition
+    ```
+
+2.  **Install dependencies**:
+    The primary dependencies are `ultralytics` (for YOLOv8) and `roboflow`.
+    ```bash
+    pip install ultralytics
+    pip install roboflow
+    ```
+    *Note: Jupyter Notebook environment (like Google Colab) is recommended for running the `.ipynb` files.*
+
+### Usage
+
+Each experiment is self-contained in a Jupyter Notebook. To run an experiment:
+
+1.  Navigate to the experiment folder (e.g., `Experiment1`).
+2.  Open the corresponding `.ipynb` file.
+3.  Ensure you have your Roboflow API key ready (if retraining or downloading datasets).
+4.  Run the cells sequentially.
+
+The notebooks include steps for:
+*   Environment setup.
+*   Dataset download from Roboflow.
+*   Model training (or loading pre-trained weights).
+*   Validation and Evaluation (Confusion Matrix, Precision-Recall curves).
+*   Inference on test images.
+
+### Results
+The repository includes generated artifacts such as confusion matrices and prediction samples within the `runs/` directory of each experiment (generated during runtime). These visualizations help in analyzing:
+*   **False Positives/Negatives**: Confusion between fish species or background.
+*   **confidence Scores**: How confident the model is in its predictions across domains.
+
+### Citation
+
+If you find this project useful for your research or work, please consider citing it:
 
 ```BibTeX
 @misc{Bathina-GroundFishRecognition,
-  title=GroundFish Recognition,
-  author=Bathina, Anudeepsri,
-  year=2023,
-  publisher=GitHub,
+  title={GroundFish Recognition: Cross Database and Transfer Learning Experiments},
+  author={Bathina, Anudeepsri},
+  year={2023},
+  publisher={GitHub},
   journal={GitHub Repository},
-  howpublished={\url[https://github.com/Anudeepsrib/GroundFish-Recognition/]},
+  howpublished={\url{https://github.com/Anudeepsrib/GroundFish-Recognition}},
 }
 ```
