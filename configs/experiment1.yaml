@@ -1,0 +1,35 @@
+# =============================================================================
+# Experiment 1: Cross-Database Generalization (Conveyor -> Underwater)
+# Train on Conveyor Belt, zero-shot test on Underwater
+# =============================================================================
+
+experiment_id: "exp1"
+experiment_name: "Cross-Database Generalization (Conveyor Belt -> Underwater)"
+description: |
+  Baseline generalization test: train exclusively on the controlled conveyor-belt
+  domain and evaluate zero-shot performance on the wild underwater domain.
+  This quantifies domain shift without any target-domain training data.
+
+train_domain: "conveyor"
+test_domain: "underwater"
+dataset_mode: "single"
+
+model_name: "yolo11n.pt"     # Override with yolo11s.pt or yolo11m.pt for real runs
+imgsz: 640
+epochs: 50
+batch: 16
+seed: 42
+device: "auto"
+
+project: "runs"
+run_name: "exp1_conveyor_to_underwater"
+output_dir: "runs/exp1"
+
+roboflow_workspace: null     # Resolved from .env ROBOFLOW_WORKSPACE_CONVEYOR
+roboflow_project: null       # Resolved from .env ROBOFLOW_PROJECT_CONVEYOR
+roboflow_version: null       # Resolved from .env ROBOFLOW_VERSION_CONVEYOR
+
+notes: |
+  Original notebook: 1_Cross_Database_Generalization_from_Conveyor_Belt_to_Underwater_Environment.ipynb
+  Expected outcome: Lower mAP on underwater test set due to domain gap (lighting, turbidity, pose).
+  Use --model yolo11s.pt --epochs 100 --device cuda for publication-quality results.

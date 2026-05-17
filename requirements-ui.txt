@@ -1,0 +1,9 @@
+# =============================================================================
+# GroundFish-Recognition - Streamlit UI Requirements
+# Run: pip install -r requirements.txt -r requirements-ui.txt
+# Then: streamlit run app.py
+# =============================================================================
+
+streamlit>=1.28.0
+Pillow>=10.0.0   # for image handling in the demo
+# ultralytics is already in the main requirements.txt (provides YOLO + plotting)

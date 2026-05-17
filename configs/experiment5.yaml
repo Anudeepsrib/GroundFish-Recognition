@@ -1,0 +1,35 @@
+# =============================================================================
+# Experiment 5: Transfer Learning (Underwater Pretrain -> Conveyor Finetune)
+# Pre-train on Underwater, fine-tune on Conveyor Belt
+# =============================================================================
+
+experiment_id: "exp5"
+experiment_name: "Transfer Learning (Underwater Pretrain -> Conveyor Finetune)"
+description: |
+  Reverse transfer learning. Pre-train on the complex underwater domain, then
+  fine-tune on the controlled conveyor-belt domain. Complements Exp4 to study
+  directionality of transfer benefit.
+
+train_domain: "underwater"
+test_domain: "conveyor"
+dataset_mode: "transfer"
+
+model_name: "yolo11n.pt"
+imgsz: 640
+epochs: 50
+batch: 16
+seed: 42
+device: "auto"
+
+project: "runs"
+run_name: "exp5_underwater_pretrain_conveyor_finetune"
+output_dir: "runs/exp5"
+
+roboflow_workspace: null
+roboflow_project: null
+roboflow_version: null
+
+notes: |
+  Original notebook: 5_Transfer_Learning_from_Underwater_to_Conveyor_Belt_Environment.ipynb
+  Research question: Does pretraining in the harder (underwater) domain provide
+  better features for the easier target than the reverse direction (Exp4)?

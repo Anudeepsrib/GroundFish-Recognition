@@ -1,0 +1,85 @@
+name: CI - YOLO11 Groundfish (dry-run only)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  lint-test-dryrun:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install core requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install dev requirements
+        run: |
+          pip install -r requirements-dev.txt
+
+      - name: Compile check (all source)
+        run: python -m compileall src scripts tests
+
+      - name: pip check
+        run: pip check
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Black check (formatting)
+        run: black --check --diff src scripts tests
+
+      - name: Pytest (CI-safe tests only)
+        run: pytest -q --tb=short
+        env:
+          # Explicitly no Roboflow key in CI
+          ROBOFLOW_API_KEY: ""
+
+      - name: Dry-run Experiment 1 (smoke)
+        run: python scripts/run_experiment.py --config configs/experiment1.yaml --dry-run
+
+      - name: Dry-run Experiment 2
+        run: python scripts/run_experiment.py --config configs/experiment2.yaml --dry-run
+
+      - name: Dry-run Experiment 3
+        run: python scripts/run_experiment.py --config configs/experiment3.yaml --dry-run
+
+      - name: Dry-run Experiment 4
+        run: python scripts/run_experiment.py --config configs/experiment4.yaml --dry-run
+
+      - name: Dry-run Experiment 5
+        run: python scripts/run_experiment.py --config configs/experiment5.yaml --dry-run
+
+      - name: Summarize (should tolerate missing real results)
+        run: python scripts/summarize_results.py --results-dir results --output results/summary.md
+
+      - name: Upload summary artifact (for PR inspection)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: experiment-summary
+          path: |
+            results/summary.md
+            results/summary.csv
+            results/*_dryrun_metrics.json
+
+      - name: pip-audit (dependency security)
+        run: pip-audit --skip-editable || true   # non-blocking for now
+
+  # Future job idea: GPU job on self-hosted or cloud runner that does real training
+  # when secrets are available. Not enabled in this base CI.

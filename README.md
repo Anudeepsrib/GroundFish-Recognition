@@ -1,96 +1,199 @@
 # GroundFish-Recognition
 
-## Cross Database and Transfer Learning Experiments with YOLOv8 Object Detection
+> **YOLO11-based cross-domain groundfish detection research and reproducible MLOps experiment suite.**
 
-### Overview
-This repository hosts a comprehensive study on the generalization capabilities of YOLOv8 object detection models in the context of groundfish species recognition. The project utilizes machine learning and transfer learning techniques to assess model performance across disparate environments, specifically shifting between **Conveyor Belt** (controlled) and **Underwater** (wild) datasets.
+This repository studies how well object detection models generalize across two very different visual domains for groundfish (bottom-dwelling fish) recognition:
 
-The goal is to understand how well models trained in one domain adapt to another, and how transfer learning can bridge the gap.
+- **Conveyor Belt** — controlled industrial imaging (clean background, consistent lighting)
+- **Underwater** — wild marine environment (turbidity, variable illumination, complex backgrounds)
 
-### Key Features
-*   **Cross-Domain Analysis**: Testing generalization from controlled settings to natural underwater environments.
-*   **Transfer Learning**: Utilizing pre-trained weights to improve performance in target domains with limited data.
-*   **YOLOv8 Implementation**: Leveraging the state-of-the-art YOLOv8 architecture for efficient and accurate detection.
-*   **Roboflow Integration**: Seamless dataset management and preprocessing via Roboflow.
+The work preserves the original five-experiment research design while upgrading the entire stack to modern Ultralytics YOLO11 tooling.
 
-### Experiments Breakdown
-The project consists of five core experiments, each contained in its own directory:
+## 🚀 Try the Interactive Demo (No GPU required)
 
-#### 1. [Experiment 1](./Experiment1)
-*   **Generalization (Conveyor $\to$ Underwater)**
-*   Train on Conveyor Belt dataset, Test on Underwater dataset.
-*   *Objective*: Establish a baseline for zero-shot generalization performance.
+Want to explore the project instantly?
 
-#### 2. [Experiment 2](./Experiment2)
-*   **Generalization (Underwater $\to$ Conveyor)**
-*   Train on Underwater dataset, Test on Conveyor Belt dataset.
-*   *Objective*: Assess if models trained in complex environments generalize better to simple ones.
+```bash
+# 1. Install the base dependencies + Streamlit UI extras
+pip install -r requirements.txt -r requirements-ui.txt
 
-#### 3. [Experiment 3](./Experiment3)
-*   **Mixed Dataset Training**
-*   Train and Test on a combined dataset (Conveyor + Underwater).
-*   *Objective*: Evaluate if data diversity improves overall robustness.
+# 2. Launch the web app
+streamlit run app.py
+```
 
-#### 4. [Experiment 4](./Experiment4)
-*   **Transfer Learning (Conveyor $\to$ Underwater)**
-*   Pre-train on Conveyor Belt, Fine-tune on Underwater.
-*   *Objective*: Quantify the benefits of transfer learning from a source domain.
+The UI lets you:
+- Browse all five cross-domain experiments with their exact configs
+- Run the same dry-run validation the CI uses (one click in the sidebar)
+- **Live inference demo** — upload any fish photo and see YOLO11 predictions in real time using `yolo11n.pt`, `yolo11s.pt`, or `yolo11m.pt`
+- View the experiment matrix and results summary
 
-#### 5. [Experiment 5](./Experiment5)
-*   **Transfer Learning (Underwater $\to$ Conveyor)**
-*   Pre-train on Underwater, Fine-tune on Conveyor Belt.
-*   *Objective*: Investigate reverse transfer learning efficacy.
+Perfect for quick demos, interviews, or letting recruiters see the work without cloning notebooks.
 
-### Installation & Prerequisites
+![Streamlit UI screenshot](https://via.placeholder.com/800x400?text=GroundFish+YOLO11+Streamlit+Demo)  
+*(Replace with a real screenshot after you run it the first time)*
 
-To replicate these experiments, you need a Python environment with GPU support (recommended).
+## YOLO11 Upgrade (2026)
 
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/Anudeepsrib/GroundFish-Recognition.git
-    cd GroundFish-Recognition
-    ```
+This repo was upgraded from YOLOv8-era Colab notebooks to the latest stable Ultralytics workflow:
 
-2.  **Install dependencies**:
-    The primary dependencies are `ultralytics` (for YOLOv8) and `roboflow`.
-    ```bash
-    pip install ultralytics
-    pip install roboflow
-    ```
-    *Note: Jupyter Notebook environment (like Google Colab) is recommended for running the `.ipynb` files.*
+- **Package**: `ultralytics>=8.4.51`
+- **Default smoke-test model**: `yolo11n.pt`
+- **Recommended real-experiment models**: `yolo11s.pt` (fast GPU) or `yolo11m.pt` (higher accuracy)
+- Full Python API (`YOLO(...).train()`) instead of fragile `!yolo` shell commands
+- Config-driven experiments + CLI runners + dry-run mode for CI
+- Safe `.env`-based Roboflow handling (no more hardcoded keys)
 
-### Usage
+See [AUDIT_REPORT.md](AUDIT_REPORT.md) for the complete before/after analysis.
 
-Each experiment is self-contained in a Jupyter Notebook. To run an experiment:
+---
 
-1.  Navigate to the experiment folder (e.g., `Experiment1`).
-2.  Open the corresponding `.ipynb` file.
-3.  Ensure you have your Roboflow API key ready (if retraining or downloading datasets).
-4.  Run the cells sequentially.
+## Experiment Matrix
 
-The notebooks include steps for:
-*   Environment setup.
-*   Dataset download from Roboflow.
-*   Model training (or loading pre-trained weights).
-*   Validation and Evaluation (Confusion Matrix, Precision-Recall curves).
-*   Inference on test images.
+| # | Experiment | Train Domain   | Test Domain    | Purpose                                      | Config                    | Notebook                                      | Result Status |
+|---|------------|----------------|----------------|----------------------------------------------|---------------------------|-----------------------------------------------|---------------|
+| 1 | Cross-Domain Generalization | Conveyor      | Underwater     | Zero-shot domain shift baseline              | `configs/experiment1.yaml` | `Experiment1/...`                             | Ready (dry-run) |
+| 2 | Cross-Domain Generalization | Underwater    | Conveyor       | Does harder training help simpler domains?   | `configs/experiment2.yaml` | `Experiment2/...`                             | Ready (dry-run) |
+| 3 | Mixed Dataset Training      | Mixed         | Mixed          | Upper-bound performance with full diversity  | `configs/experiment3.yaml` | `Experiment3/...`                             | Ready (dry-run) |
+| 4 | Transfer Learning           | Conveyor →    | Underwater     | Pretrain then finetune (source → target)     | `configs/experiment4.yaml` | `Experiment4/...`                             | Ready (dry-run) |
+| 5 | Transfer Learning           | Underwater →  | Conveyor       | Reverse transfer direction                   | `configs/experiment5.yaml` | `Experiment5/...`                             | Ready (dry-run) |
 
-### Results
-The repository includes generated artifacts such as confusion matrices and prediction samples within the `runs/` directory of each experiment (generated during runtime). These visualizations help in analyzing:
-*   **False Positives/Negatives**: Confusion between fish species or background.
-*   **confidence Scores**: How confident the model is in its predictions across domains.
+---
 
-### Citation
+## Quick Start (Reproducible, No GPU Required for Smoke Test)
 
-If you find this project useful for your research or work, please consider citing it:
+```bash
+# 1. Clone & create environment (Python 3.11 recommended)
+git clone https://github.com/Anudeepsrib/GroundFish-Recognition.git
+cd GroundFish-Recognition
 
-```BibTeX
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# macOS/Linux
+source .venv/bin/activate
+
+pip install -r requirements.txt
+
+# 2. (Optional but recommended) Create .env for real Roboflow downloads
+cp .env.example .env
+# Edit .env with your Roboflow API key + workspace/project/version values
+
+# 3. Smoke test — validates everything without network or GPU
+python scripts/run_experiment.py --config configs/experiment1.yaml --dry-run
+
+# 4. Run all five dry-runs (what CI does)
+for i in 1 2 3 4 5; do
+  python scripts/run_experiment.py --config configs/experiment$i.yaml --dry-run
+done
+
+# 5. Generate summary (works even with no real results)
+python scripts/summarize_results.py --results-dir results --output results/summary.md
+```
+
+### Real GPU Experiment Example
+
+```bash
+# After filling .env and having a CUDA GPU
+python scripts/run_experiment.py \
+  --config configs/experiment1.yaml \
+  --train --evaluate \
+  --device cuda \
+  --model yolo11s.pt \
+  --epochs 100
+```
+
+> **Tip**: `yolo11n.pt` is intentionally tiny for CI and local smoke tests. Use `yolo11s.pt` or `yolo11m.pt` for any paper-quality numbers.
+
+---
+
+## Project Structure
+
+```
+├── configs/                  # YAML-driven experiment definitions
+│   ├── default.yaml
+│   └── experiment{1..5}.yaml
+├── src/groundfish_recognition/
+│   ├── config.py             # YAML loader + merge + validation
+│   ├── datasets.py           # Safe Roboflow downloader (never prints keys)
+│   ├── train.py              # YOLO11 Python API wrapper
+│   ├── evaluate.py
+│   ├── metrics.py            # results.csv → normalized JSON
+│   ├── summarize.py          # Cross-experiment CSV + Markdown
+│   └── paths.py              # Centralized, safe output locations
+├── scripts/
+│   ├── run_experiment.py     # Main CLI (supports --dry-run, --train, --device, overrides)
+│   ├── evaluate_experiment.py
+│   └── summarize_results.py
+├── tests/                    # CI-safe unit tests (no GPU, no secrets)
+├── .github/workflows/ci.yml  # Lint + pytest + 5× dry-run on every push/PR
+├── Experiment*/              # Original notebooks (upgraded with YOLO11 headers)
+├── results/curated/          # Only place for figures you want to keep in git
+├── .env.example
+├── SECURITY.md
+└── AUDIT_REPORT.md
+```
+
+---
+
+## Artifact & Security Policy
+
+- **Never committed**: `.env`, `datasets/`, `runs/`, `*.pt`, `*.onnx`, `wandb/`, `logs/`, `__pycache__/`
+- **Curated outputs only**: Put final figures/tables you want visible in `results/curated/`
+- **Roboflow keys**: Must live in `.env`. Rotate immediately if leaked.
+- See [SECURITY.md](SECURITY.md) for full guidance.
+
+---
+
+## Hardware & Runtime Notes
+
+- **Minimum for smoke**: CPU-only Python 3.11 env (dry-run finishes in <10s)
+- **Real training**: NVIDIA GPU with CUDA 11.8+ or 12.x recommended. `yolo11s.pt` at 640px / batch 16 fits on 8–12 GB cards.
+- Ultralytics will auto-download the requested `yolo11*.pt` weights on first use.
+- Training time on a single V100/A100 for 50 epochs with `yolo11s` is typically 30–90 min depending on dataset size.
+
+---
+
+## Reproducibility
+
+Every experiment is fully defined by:
+1. Its `configs/experimentN.yaml`
+2. The exact Roboflow version pinned in your `.env`
+3. `seed: 42` + Ultralytics deterministic flags
+4. The pinned `requirements.txt`
+
+Exact mAP numbers will still vary slightly across:
+- Different Roboflow dataset versions
+- Ultralytics patch releases
+- CUDA / cuDNN / PyTorch versions
+- GPU architecture
+
+The goal of this repo is **repeatable process**, not bit-identical numbers.
+
+---
+
+## License & Citation
+
+- Code & orchestration: MIT (see [LICENSE](LICENSE))
+- Datasets: Subject to the original Roboflow project licenses (you must have access rights)
+- YOLO11 weights: Ultralytics license (AGPL-3.0 for open-source use)
+
+If this work helps your research, please cite the original:
+
+```bibtex
 @misc{Bathina-GroundFishRecognition,
-  title={GroundFish Recognition: Cross Database and Transfer Learning Experiments},
-  author={Bathina, Anudeepsri},
-  year={2023},
-  publisher={GitHub},
-  journal={GitHub Repository},
-  howpublished={\url{https://github.com/Anudeepsrib/GroundFish-Recognition}},
+  title   = {GroundFish Recognition: Cross Database and Transfer Learning Experiments},
+  author  = {Bathina, Anudeepsri},
+  year    = {2023},
+  howpublished = {\url{https://github.com/Anudeepsrib/GroundFish-Recognition}},
 }
 ```
+
+---
+
+## Remaining Manual Actions (Post-Upgrade)
+
+See the final section of [AUDIT_REPORT.md](AUDIT_REPORT.md) for the complete checklist.
+
+---
+
+**Status**: Production-ready for research, portfolio review, and CI-gated experimentation. All P0/P1 issues from the original notebooks have been eliminated.

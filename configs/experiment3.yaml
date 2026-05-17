@@ -1,0 +1,35 @@
+# =============================================================================
+# Experiment 3: Mixed Dataset Training (Conventional)
+# Train and test on combined Conveyor + Underwater data
+# =============================================================================
+
+experiment_id: "exp3"
+experiment_name: "Mixed Dataset Training (Conveyor + Underwater)"
+description: |
+  Conventional supervised learning with maximum data diversity. The training and
+  validation sets are formed by mixing both domains. This serves as an upper-bound
+  reference for what performance is achievable when domain labels are ignored.
+
+train_domain: "mixed"
+test_domain: "mixed"
+dataset_mode: "mixed"
+
+model_name: "yolo11n.pt"
+imgsz: 640
+epochs: 50
+batch: 16
+seed: 42
+device: "auto"
+
+project: "runs"
+run_name: "exp3_mixed_training"
+output_dir: "runs/exp3"
+
+roboflow_workspace: null   # Will use both conveyor and underwater env vars
+roboflow_project: null
+roboflow_version: null
+
+notes: |
+  Original notebook: 3_Integrated_Approach_with_a_Mixed_Dataset_(Conventional_Training_and_Testing).ipynb
+  This is the only experiment where train and test distributions are i.i.d. (mixed).
+  Expect highest mAP here if the model has enough capacity.

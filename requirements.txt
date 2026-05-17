@@ -1,0 +1,42 @@
+# =============================================================================
+# GroundFish-Recognition - Core Requirements
+# YOLO11 / Ultralytics 8.4+ cross-domain groundfish detection experiments
+# Python 3.10+ recommended (3.11 preferred for stability with PyTorch)
+# =============================================================================
+
+# Core ML / CV
+ultralytics>=8.4.51,<9.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Dataset & Roboflow (safe handling via .env)
+roboflow>=1.1.0
+python-dotenv>=1.0.0
+
+# Config & Data
+pyyaml>=6.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Image / Viz
+opencv-python>=4.8.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilities
+scikit-learn>=1.3.0
+tqdm>=4.65.0
+pyyaml>=6.0
+
+# Notebook support (for .ipynb workflows)
+jupyter>=1.0.0
+ipykernel>=6.25.0
+ipython>=8.14.0
+
+# Optional but recommended for serious runs
+# tensorboard>=2.13.0   # for ultralytics logging
+# wandb>=0.15.0         # if using Weights & Biases (add to .env)
+
+# Note: CUDA/cuDNN is provided by your PyTorch install.
+# For GPU: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# See README for hardware guidance.

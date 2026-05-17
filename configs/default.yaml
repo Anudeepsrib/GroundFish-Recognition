@@ -1,0 +1,49 @@
+# =============================================================================
+# GroundFish-Recognition - Default Configuration (YOLO11)
+# Used as base for all experiments. Override per-experiment in experimentN.yaml
+# =============================================================================
+
+experiment_id: "default"
+experiment_name: "Default YOLO11 Groundfish Experiment"
+description: "Base configuration. Do not run directly; use experiment-specific yamls."
+
+# Domain & Dataset Mode
+train_domain: null          # "conveyor" | "underwater" | "mixed"
+test_domain: null
+dataset_mode: "single"      # "single" | "mixed" | "transfer"
+
+# Model (YOLO11 family - smoke default is nano)
+model_name: "yolo11n.pt"    # Options: yolo11n.pt, yolo11s.pt, yolo11m.pt, yolo11l.pt, yolo11x.pt
+                            # For segmentation datasets use yolo11n-seg.pt etc. (future)
+
+# Training Hyperparameters (conservative defaults for smoke / CI)
+imgsz: 640
+epochs: 5                   # 50 in original notebooks; keep low for dry-run & smoke tests
+batch: 16
+seed: 42
+device: "auto"              # "auto" | "cpu" | "cuda" | "mps" | 0 | [0,1]
+
+# Ultralytics project / run naming (creates runs/<project>/<name>/)
+project: "runs"
+run_name: "default_run"
+output_dir: "runs"          # Can be overridden for organized output
+
+# Roboflow (loaded from .env at runtime; these are fallbacks / documentation)
+roboflow_workspace: null
+roboflow_project: null
+roboflow_version: null
+
+# Advanced
+patience: 20
+workers: 4
+exist_ok: true
+pretrained: true
+verbose: true
+plots: true
+save: true
+
+# Notes for reproducibility
+notes: |
+  Default smoke-test config. Real experiments should override epochs >= 50,
+  use yolo11s.pt or yolo11m.pt on GPU, and pin exact Roboflow versions.
+  Seed is fixed for reproducibility across runs.

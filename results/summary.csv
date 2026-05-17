@@ -1,0 +1,6 @@
+experiment_id,experiment_name,model,map50,map50_95,precision,recall,epochs,status,source
+exp1,Cross-Database Generalization (Conveyor Belt -> Underwater),yolo11n.pt,0.0,0.0,0.0,0.0,50,ok,exp1_dryrun_metrics.json
+exp2,Cross-Database Generalization (Underwater -> Conveyor Belt),yolo11n.pt,0.0,0.0,0.0,0.0,50,ok,exp2_dryrun_metrics.json
+exp3,Mixed Dataset Training (Conveyor + Underwater),yolo11n.pt,0.0,0.0,0.0,0.0,50,ok,exp3_dryrun_metrics.json
+exp4,Transfer Learning (Conveyor Pretrain -> Underwater Finetune),yolo11n.pt,0.0,0.0,0.0,0.0,50,ok,exp4_dryrun_metrics.json
+exp5,Transfer Learning (Underwater Pretrain -> Conveyor Finetune),yolo11n.pt,0.0,0.0,0.0,0.0,50,ok,exp5_dryrun_metrics.json

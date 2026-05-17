@@ -1,0 +1,35 @@
+# =============================================================================
+# Experiment 2: Cross-Database Generalization (Underwater -> Conveyor)
+# Train on Underwater, test on Conveyor Belt
+# =============================================================================
+
+experiment_id: "exp2"
+experiment_name: "Cross-Database Generalization (Underwater -> Conveyor Belt)"
+description: |
+  Reverse generalization test: train on the complex underwater domain and evaluate
+  on the simpler controlled conveyor-belt domain. Tests whether training in harder
+  conditions produces more robust features.
+
+train_domain: "underwater"
+test_domain: "conveyor"
+dataset_mode: "single"
+
+model_name: "yolo11n.pt"
+imgsz: 640
+epochs: 50
+batch: 16
+seed: 42
+device: "auto"
+
+project: "runs"
+run_name: "exp2_underwater_to_conveyor"
+output_dir: "runs/exp2"
+
+roboflow_workspace: null
+roboflow_project: null
+roboflow_version: null
+
+notes: |
+  Original notebook: 2_Assessment_of_Model_Performance_from_Underwater_to_Conveyor_Belt_Environment.ipynb
+  Hypothesis: Underwater-trained models may generalize better to clean conveyor data
+  than the reverse (Exp1), because underwater contains more visual variation.

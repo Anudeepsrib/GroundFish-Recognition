@@ -1,0 +1,33 @@
+# =============================================================================
+# GroundFish-Recognition - Development & CI Requirements
+# Install after requirements.txt: pip install -r requirements-dev.txt
+# =============================================================================
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Linting & Formatting (enforced in CI)
+ruff>=0.1.0
+black>=23.7.0
+
+# Security & Dependency Auditing
+pip-audit>=2.6.0
+bandit>=1.7.5
+
+# Type checking (optional but recommended for src/)
+mypy>=1.5.0
+
+# Notebook execution / validation (for future CI notebook tests)
+nbstripout>=0.6.0
+nbconvert>=7.7.0
+
+# Pre-commit hooks (recommended local workflow)
+pre-commit>=3.3.0
+
+# Documentation
+mkdocs>=1.5.0
+mkdocs-material>=9.1.0  # if docs site added later
+
+# Note: These are NOT needed for plain dry-run or training on a remote GPU box.
+# CI uses a subset: pytest, ruff, black, pip-audit.

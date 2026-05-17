@@ -1,0 +1,36 @@
+# =============================================================================
+# Experiment 4: Transfer Learning (Conveyor Pretrain -> Underwater Finetune)
+# Pre-train on Conveyor, fine-tune on Underwater
+# =============================================================================
+
+experiment_id: "exp4"
+experiment_name: "Transfer Learning (Conveyor Pretrain -> Underwater Finetune)"
+description: |
+  Two-stage transfer learning. First stage: train on large conveyor-belt source
+  domain. Second stage: fine-tune the resulting weights on the smaller underwater
+  target domain. Measures the value of source-domain pretraining.
+
+train_domain: "conveyor"     # Stage 1
+test_domain: "underwater"    # Final evaluation after fine-tune
+dataset_mode: "transfer"     # Special handling: pretrain then finetune
+
+model_name: "yolo11n.pt"
+imgsz: 640
+epochs: 50                   # Total; scripts may split (e.g. 30 pretrain + 20 finetune)
+batch: 16
+seed: 42
+device: "auto"
+
+project: "runs"
+run_name: "exp4_conveyor_pretrain_underwater_finetune"
+output_dir: "runs/exp4"
+
+roboflow_workspace: null
+roboflow_project: null
+roboflow_version: null
+
+notes: |
+  Original notebook: 4_Leveraging_Transfer_Learning_from_Conveyor_Belt_to_Underwater_Dataset.ipynb
+  Implementation note: The runner performs two sequential train() calls. The second
+  call uses the best weights from stage 1 as `model` argument (or `resume` logic).
+  Compare final underwater mAP against Exp1 (no pretrain).
